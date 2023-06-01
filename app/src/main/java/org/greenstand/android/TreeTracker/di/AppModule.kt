@@ -190,13 +190,6 @@ val appModule = module {
 
     single { ConvergenceConfiguration(get()) }
 
-    single {
-        GsonBuilder()
-            .registerTypeAdapter(MessageType::class.java, MessageTypeDeserializer())
-            .serializeNulls()
-            .create()
-    }
-
     single { TreeTrackerViewModelFactory() }
 
     single { ExceptionDataCollector(get()) }

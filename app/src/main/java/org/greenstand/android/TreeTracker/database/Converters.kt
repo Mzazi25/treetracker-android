@@ -16,42 +16,28 @@
 package org.greenstand.android.TreeTracker.database
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
-import java.lang.reflect.Type
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 object Converters {
 
-    val gson = Gson()
+    @TypeConverter
+    fun jsonToMap(value: String?) = value?.let { Json.decodeFromString<Map<String, String>>(it) }
 
     @TypeConverter
-    fun jsonToMap(value: String?): Map<String, String>? {
-        return gson.fromJson(value, Map::class.java) as? Map<String, String>
-    }
+    fun mapToJson(value: Map<String, String>?): String = Json.encodeToString(value)
 
     @TypeConverter
-    fun mapToJson(map: Map<String, String>?): String? {
-        return gson.toJson(map)
-    }
+    fun instantToString(value: String?) = value?.let { Json.decodeFromString<Instant>(it) }
 
     @TypeConverter
-    fun instantToString(instant: Instant?): String? {
-        return instant?.let { it.toString() }
-    }
+    fun stringToInstance(value: Instant?) = value?.let { Json.encodeToString(it) }
 
     @TypeConverter
-    fun stringToInstance(s: String?): Instant? = s?.toInstant()
+    fun stringToArray(value: String?) = value?.let { Json.decodeFromString<List<String>>(it) }
 
     @TypeConverter
-    fun stringToArray(value: String?): List<String?>? {
-        val listType: Type = object : TypeToken<List<String?>?>() {}.type
-        return gson.fromJson(value, listType)
-    }
-
-    @TypeConverter
-    fun arrayToString(list: List<String?>?): String? {
-        return gson.toJson(list)
-    }
+    fun arrayToString(value: List<String>?): String = Json.encodeToString(value)
 }
