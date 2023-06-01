@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id "androidx.navigation.safeargs"
     id 'com.google.firebase.crashlytics'
+    id 'kotlinx-serialization'
 }
 
 def loadExtraProperties(String fileName) {
@@ -262,6 +263,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx:17.3.1'
     implementation 'com.google.firebase:firebase-iid:21.0.1'
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+
+
     testImplementation 'androidx.test:core-ktx:1.5.0'
     testImplementation "io.mockk:mockk:1.10.0"
     testImplementation "junit:junit:4.13.1"
@@ -273,14 +277,6 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.8.1"
     androidTestImplementation "app.cash.turbine:turbine:0.12.1"
     testImplementation "app.cash.turbine:turbine:0.12.1"
-
-}
-
-configurations.all {
-    resolutionStrategy {
-        preferProjectModules()
-        force 'com.google.code.gson:gson:2.8.5'
-    }
 }
 
 apply plugin: 'com.google.gms.google-services'
